@@ -34,8 +34,7 @@ Configuration
 
 ####  Set file permissions:
 Create a folder on the NAS and set the access permissions on the folder
-which contains this script, the script itself, and its credentials file,
-using a shell prompt:
+which contains this script, and the script itself, using a shell prompt:
 
      chmod 770 PlexUpdate
      cd PlexUpdate
