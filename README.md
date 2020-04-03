@@ -10,16 +10,14 @@ the Synology NAS won't auto-update the Plex Media Server.
 Note that, in order for this script to work, Plex Media Server must already be
 installed and working on the NAS.
 
-This was originally devised from these two (nearly identical) scripts:
-
 Original author MartinoRob:
 - https://github.com/martinorob/plexupdate
 - https://forums.plex.tv/t/script-to-auto-update-plex-on-synology-nas-rev4/479748
 
-Some minor formatting improvements by Sean Hamlin:
+Formatting/style changes by Sean Hamlin:
 - https://gist.github.com/seanhamlin/dcde16a164377dca87a798a4c2ea051c
 
-Additional logging and bullet-proofing added by Tony Fabris:
+Logging and bullet-proofing added by Tony Fabris:
 - https://github.com/tfabris/PlexUpdate
 
 ------------------------------------------------------------------------------
