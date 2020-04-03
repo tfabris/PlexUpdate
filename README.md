@@ -19,7 +19,8 @@ Original author MartinoRob:
 Some minor formatting improvements by Sean Hamlin:
 - https://gist.github.com/seanhamlin/dcde16a164377dca87a798a4c2ea051c
 
-I have added additional logging and bullet-proofing.
+Additional logging and bullet-proofing added by Tony Fabris:
+- https://github.com/tfabris/PlexUpdate
 
 ------------------------------------------------------------------------------
 
