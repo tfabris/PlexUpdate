@@ -115,7 +115,7 @@ fi
 CURRENT_VERSION=$(synopkg version "Plex Media Server")
 if [ ! -z "$CURRENT_VERSION" ] && [ $CURRENT_VERSION != null ]
 then
-  LogMessage "dbg" "Current version:   ${CURRENT_VERSION}"
+  LogMessage "info" "Current version:   ${CURRENT_VERSION}"
 else
   LogMessage "err" "Unable to retrieve current version of installed Plex package"
   exit 1
@@ -125,7 +125,7 @@ fi
 NEW_VERSION=$(echo $JSON | jq -r .nas.Synology.version)
 if [ ! -z "$NEW_VERSION" ] && [ $NEW_VERSION != null ]
 then
-  LogMessage "dbg" "New version:       ${NEW_VERSION}"
+  LogMessage "info" "New version:       ${NEW_VERSION}"
 else
   LogMessage "err" "Unable to retrieve new version out of the JSON"
   exit 1
