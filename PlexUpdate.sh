@@ -115,7 +115,7 @@ fi
 CURRENT_VERSION=$(synopkg version "Plex Media Server")
 if [ ! -z "$CURRENT_VERSION" ] && [ $CURRENT_VERSION != null ]
 then
-  LogMessage "info" "Current version:   ${CURRENT_VERSION}"
+  LogMessage "dbg" "Current version:   ${CURRENT_VERSION}"
 else
   LogMessage "err" "Unable to retrieve current version of installed Plex package"
   exit 1
@@ -125,7 +125,7 @@ fi
 NEW_VERSION=$(echo $JSON | jq -r .nas.Synology.version)
 if [ ! -z "$NEW_VERSION" ] && [ $NEW_VERSION != null ]
 then
-  LogMessage "info" "New version:       ${NEW_VERSION}"
+  LogMessage "dbg" "New version:       ${NEW_VERSION}"
 else
   LogMessage "err" "Unable to retrieve new version out of the JSON"
   exit 1
@@ -145,8 +145,19 @@ else
 fi
 NEW_DATE_STRING=$( date -d @$NEW_DATE +'%Y-%m-%d' )
 
+# Fix GitHub bug #2 - The CURRENT_VERSION string has slight differences from the
+# advertised version. The portion of the string after the dash is different,
+# even if the versions are the same. For example, the command "synopkg
+# version "Plex Media Server"" results in "1.40.1.8120-6000" while the web site
+# JSON output is reporting the version "1.40.1.8120-6dc7f7fd8". So the fix is
+# to strip everything after the dash in both versions, and compare those
+# instead.
+NEW_VERSION_COMPARE=$(echo $NEW_VERSION | cut -f1 -d"-")
+CURRENT_VERSION_COMPARE=$(echo $CURRENT_VERSION | cut -f1 -d"-")
+LogMessage "info" "Comparing: Installed version ${CURRENT_VERSION_COMPARE} to available version ${NEW_VERSION_COMPARE}"
+
 # Test if the new version on the Internet is different from the installed version.
-if [ "${NEW_VERSION}" != "${CURRENT_VERSION}" ]
+if [ "${NEW_VERSION_COMPARE}" != "${CURRENT_VERSION_COMPARE}" ]
 then
   # Log to the system log that an update is going to happen.
   LogMessage "info" "New Plex version available, updating Plex to version ${NEW_VERSION} dated ${NEW_DATE_STRING}"
