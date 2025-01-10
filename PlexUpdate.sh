@@ -122,7 +122,10 @@ else
 fi
 
 # Parse and validate the newest available version out of the JSON.
-NEW_VERSION=$(echo $JSON | jq -r .nas.Synology.version)
+# UPDATE 2025-01-09 - Plex changed the heading in the JSON file from
+# "Synology" to "Synology (DSM 6)" and now I must change my syntax here.
+# Old syntax:   NEW_VERSION=$(echo $JSON | jq -r .nas.Synology.version)
+NEW_VERSION=$(echo $JSON | jq -r '.nas."Synology (DSM 6)".version')
 if [ ! -z "$NEW_VERSION" ] && [ $NEW_VERSION != null ]
 then
   LogMessage "dbg" "New version:       ${NEW_VERSION}"
@@ -135,7 +138,9 @@ fi
 #   LogMessage "dbg" "$JSON"
 
 # Parse and validate the datestamp of the new version out of the JSON.
-NEW_DATE=$(echo $JSON | jq -r .nas.Synology.release_date)
+# UPDATE 2025-01-09 - Plex changed the heading in the JSON file from
+# "Synology" to "Synology (DSM 6)" and now I must change my syntax here.
+NEW_DATE=$(echo $JSON | jq -r '.nas."Synology (DSM 6)".release_date')
 if [ ! -z "$NEW_DATE" ] && [ $NEW_DATE != null ]
 then
   LogMessage "dbg" "New version date:  ${NEW_DATE}"
@@ -179,11 +184,13 @@ then
   fi
 
   # Parse and validate the final download URL of the correct architecture.
+  # UPDATE 2025-01-09 - Plex changed the heading in the JSON file from
+  # "Synology" to "Synology (DSM 6)" and now I must change my syntax here.
   URL=""
   if [ "$CPU" = "x86_64" ] ; then
-    URL=$(echo $JSON | jq -r ".nas.Synology.releases[1] | .url")
+    URL=$(echo $JSON | jq -r '.nas."Synology (DSM 6)".releases[1] | .url')
   else
-    URL=$(echo $JSON | jq -r ".nas.Synology.releases[0] | .url")
+    URL=$(echo $JSON | jq -r '.nas."Synology (DSM 6)".releases[0] | .url')
   fi
   if [ ! -z "$URL" ]
   then
@@ -247,5 +254,5 @@ fi
 LogMessage "dbg" "Deleting temporary download folder if it exists"
 rm -rf /tmp/PlexTempDownload/
 
-LogMessage "dbg" "Update complete"
+LogMessage "dbg" "Plex update complete"
 exit 0
