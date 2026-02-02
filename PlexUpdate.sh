@@ -161,8 +161,14 @@ NEW_VERSION_COMPARE=$(echo $NEW_VERSION | cut -f1 -d"-")
 CURRENT_VERSION_COMPARE=$(echo $CURRENT_VERSION | cut -f1 -d"-")
 LogMessage "info" "Comparing: Installed version ${CURRENT_VERSION_COMPARE} to available version ${NEW_VERSION_COMPARE}"
 
-# Test if the new version on the Internet is different from the installed version.
-if [ "${NEW_VERSION_COMPARE}" != "${CURRENT_VERSION_COMPARE}" ]
+# Test if the new version on the Internet is different from the installed
+# version. Update 2026-02-02 - Use lexicographical greater-than comparison
+# instead of exact equality comparison. I ran into a situation where the
+# installed version was 1.43.0.10467 (higher) and the available version was
+# 1.43.0.10389 (lower). This kept getting an error when attempting to
+# install since it was trying to install a lower version. Apparently they
+# rolled that version back. Details: https://forums.plex.tv/t/issue-upgrading-to-pms-1-43-0-10467-on-debian-and-rhel/935847
+if [[ "${NEW_VERSION_COMPARE}" > "${CURRENT_VERSION_COMPARE}" ]]
 then
   # Log to the system log that an update is going to happen.
   LogMessage "info" "New Plex version available, updating Plex to version ${NEW_VERSION} dated ${NEW_DATE_STRING}"
